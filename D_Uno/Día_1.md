@@ -1,40 +1,136 @@
-# Primero hay que instalar el entorno de azure cli(empezamos con azure), para ello vas a necesitar los siguientes comandos:
-    Te dejo el link de los pasos por si ha sucedido algún cambio, de cara al futuro:
-```markdown[https://learn.microsoft.com/es-es/cli/azure/install-azure-cli-windows?view=azure-cli-latest&pivots=winget]
+# Instalación y Configuración de Azure CLI
+
+## Paso 1: Instalación del Azure CLI
+
+Primero hay que instalar el entorno de Azure CLI. Para ello vas a necesitar los siguientes comandos.
+
+Te dejo el link de los pasos por si ha sucedido algún cambio, de cara al futuro:
+- https://learn.microsoft.com/es-es/cli/azure/install-azure-cli-windows?view=azure-cli-latest&pivots=winget
+
+**Aclaración:** Los comandos estarán siempre entre paréntesis `(comando)`.
+
+### Verificación de la instalación
+
+Tras instalar el az CLI en tu equipo, debes cerrar tu terminal y volver a abrir una nueva. Tras ello realiza el comando:
+
+```bash
+az
 ```
-	-Aclaración, los comandos estarán siempre entre corchetes (comando).
-	
-	Tras instalar el az CLI en tu equipo, debes cerrar tu terminal y volver a abrir una nueva,tras ello realiza el comando: (az)
-	Tras ello deberías ver la consola de azure.
-	Lo primero que vamos a mirar es el (az --version) para saber que versión tenemos instalada.
-	Tras esto, ya hemos terminado el primer paso, vamos con el segundo.
-	Segundo paso, realizamos az login con nuestra cuenta con suscripción, de la que dispongaís.
-	Si se te complica, solo tienes que mirar la última parte de tu comando y mirar que tenants tienes y saber cuál es el que tiene la suscripción, tras ello realizas simplemente.
-		-(az login --tenant (aqui va el id de tu tenant con suscripción, será una serie de números tipo 00f9-19f1-d1be-n1u2 o similar))
 
-	A continuación nos vamos a pegar los comandos necesarios para dejar seleccionada la suscripción en la que queremos trabajar, en el siguiente orden.
-	-(az account list --output table) con esto veremos las suscripciónes disponibles que tenemos para elegir.
-	-(az account set --subscription <00000000-0000-0000-0000-000000000000>) De la lista anterior te copias el subscription_id y lo pegas ahí, con eso ya tenemos el az cli configurado 
-	de forma básica.
+Tras ello deberías ver la consola de Azure.
 
-# Creación de un grupo de recursos.
-Vamos a mirar que tenemos en el siguiente orden, vamos a mirar si el  x nombre que queremos asignar a nuestro recursos ya está siendo usado, para evitar repetirlo.
--(az group exists --name <myUniqueRGname>), si dice false es que nadie lo está usando y por lo tanto lo podemos utilizar nosotros.
-ejemplo: >az group exists --name leogroup
-		 >false
-Ahora con nuestro nombre elegido y único vamos a, pos no, antes de seguir debemos revisar a qué regiones está limitada nuestra suscripción, puede ser que no, pero si tienes la de estudiante
-es bastante probable que si que tengas bloqueos en ciertas regiones, vamos a comprobar cuales con el siguiente comando:
--(az account list-locations --query "[].{Region:name}" --output table), este comando nos devolverá las regiones en las cuales podremos desplegar nuestro grupo de recursos y otros servicios.
+Lo primero que vamos a mirar es:
 
-El siguiente subpaso es crear el grupo de recursos, pero como queremos tener estilo vamos a realizarlo mediante implementación de variables os dejo el comando y un ejemplo:
-	-(az group create --location <myLocation> --name <myUniqueRGname>) Comando vegano pero sencillo por si no quieres usar variables.
-	-(location="eastus"
-	resourceGroup="msdocs-tutorial-rg-$randomIdentifier"
-	az group create --name $resourceGroup --location $location --output json)  Elegante, como puedes ver, ahora ya no tendrás que repetir y repetir el location por ejemplo, simplemente puedes utilizar la variable.
-Ahora bien, probablemente si usas el cmd, tendrás que realizar ( set location="spaincentral") y después llamar a la variable con %location%, ejemplo:
-	-(set location="eastus"
-	  set resourceGroup="msdocs-tutorial-rg-$randomIdentifier"
-	  az group create --name %resourceGroup% --location %location% --output json)
+```bash
+az --version
+```
 
-	  
+Para saber qué versión tenemos instalada.
 
+**Tras esto, ya hemos terminado el primer paso.**
+
+---
+
+## Paso 2: Autenticación y Configuración de Suscripción
+
+### Login con tu cuenta
+
+Segundo paso: realizamos `az login` con nuestra cuenta con suscripción, de la que dispongaís.
+
+```bash
+az login
+```
+
+Si se te complica, solo tienes que mirar la última parte de tu comando y mirar qué tenants tienes y saber cuál es el que tiene la suscripción. Tras ello realizas simplemente:
+
+```bash
+az login --tenant <ID_TENANT>
+```
+
+*Ejemplo: aquí va el id de tu tenant con suscripción, será una serie de números tipo 00f9-19f1-d1be-n1u2 o similar*
+
+### Seleccionar la suscripción activa
+
+A continuación nos vamos a pegar los comandos necesarios para dejar seleccionada la suscripción en la que queremos trabajar, en el siguiente orden:
+
+1. Lista las suscripciones disponibles:
+   ```bash
+   az account list --output table
+   ```
+   Con esto veremos las suscripciones disponibles que tenemos para elegir.
+
+2. Establece tu suscripción:
+   ```bash
+   az account set --subscription <00000000-0000-0000-0000-000000000000>
+   ```
+   De la lista anterior te copias el subscription_id y lo pegas ahí. Con eso ya tenemos el az CLI configurado de forma básica.
+
+---
+
+## Paso 3: Creación de un Grupo de Recursos
+
+### Verificar disponibilidad del nombre
+
+Vamos a mirar si el nombre que queremos asignar a nuestro recurso ya está siendo usado, para evitar repetirlo:
+
+```bash
+az group exists --name <myUniqueRGname>
+```
+
+Si dice false es que nadie lo está usando y por lo tanto lo podemos utilizar nosotros.
+
+**Ejemplo:**
+```bash
+az group exists --name leogroup
+> false
+```
+
+### Verificar regiones disponibles
+
+Ahora con nuestro nombre elegido y único vamos a revisar a qué regiones está limitada nuestra suscripción. Puede ser que no, pero si tienes la de estudiante es bastante probable que sí que tengas bloqueos en ciertas regiones.
+
+Vamos a comprobar cuáles con el siguiente comando:
+
+```bash
+az account list-locations --query "[].{Region:name}" --output table
+```
+
+Este comando nos devolverá las regiones en las cuales podremos desplegar nuestro grupo de recursos y otros servicios.
+
+### Crear el grupo de recursos
+
+El siguiente subpaso es crear el grupo de recursos. Como queremos tener estilo vamos a realizarlo mediante implementación de variables. Os dejo el comando y un ejemplo:
+
+**Opción simple (sin variables):**
+```bash
+az group create --location <myLocation> --name <myUniqueRGname>
+```
+
+Comando vegano pero sencillo por si no quieres usar variables.
+
+**Opción elegante (con variables - Linux/macOS/PowerShell):**
+```bash
+location="eastus"
+resourceGroup="msdocs-tutorial-rg-$randomIdentifier"
+az group create --name $resourceGroup --location $location --output json
+```
+
+Elegante, como puedes ver, ahora ya no tendrás que repetir y repetir el location por ejemplo, simplemente puedes utilizar la variable.
+
+**Opción para CMD (Windows):**
+
+Ahora bien, probablemente si usas el cmd, tendrás que realizar:
+
+```cmd
+set location="eastus"
+set resourceGroup="msdocs-tutorial-rg-%RANDOM%"
+az group create --name %resourceGroup% --location %location% --output json
+```
+
+Y después llamar a la variable con %location%, ejemplo:
+
+```cmd
+set location="spaincentral"
+set resourceGroup="msdocs-tutorial-rg-%RANDOM%"
+az group create --name %resourceGroup% --location %location% --output json
+```
