@@ -1,6 +1,6 @@
 # Primero hay que instalar el entorno de azure cli(empezamos con azure), para ello vas a necesitar los siguientes comandos:
     Te dejo el link de los pasos por si ha sucedido algún cambio, de cara al futuro:
-```markdown[https://learn.microsoft.com/es-es/cli/azure/install-azure-cli-windows?view=azure-cli-latest&pivots=winget]inicio
+```markdown[https://learn.microsoft.com/es-es/cli/azure/install-azure-cli-windows?view=azure-cli-latest&pivots=winget]
 ```
 	-Aclaración, los comandos estarán siempre entre corchetes (comando).
 	
