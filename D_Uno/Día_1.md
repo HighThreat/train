@@ -17,7 +17,7 @@ Tras instalar el az CLI en tu equipo, debes cerrar tu terminal y volver a abrir 
 az
 ```
 
-Tras ello deberías ver la interfaz de la CLI de azure.
+Tras ello deberías ver la ayuda de Azure CLI.
 
 Lo primero que vamos a mirar es:
 
@@ -47,7 +47,7 @@ Si se te complica, solo tienes que mirar la última parte de tu comando y mirar 
 az login --tenant <ID_TENANT>
 ```
 
-*Ejemplo: aquí va el id de tu tenant con suscripción, será una serie de números tipo 00f9-19f1-d1be-n1u2 o similar*
+*Ejemplo: aquí va el id de tu tenant con suscripción, será una serie de números tipo 00f9-19f1-d1be-n1u2 o similar,  el tenant se usa cuando tienes varios directorios o varias organizaciones*
 
 ### Seleccionar la suscripción activa
 
@@ -71,7 +71,7 @@ A continuación nos vamos a pegar los comandos necesarios para dejar seleccionad
 
 ### Verificar disponibilidad del nombre
 
-Vamos a consultar si un grupo existe dentro de una suscripción concreta, la nuestra, para poder utilizar el nombre:
+El siguiente comando comprueba existencia dentro de la suscripción actual, del nombre de un grupo de recurso, esto lo realizamos para evitar errores de nombres o name_spaces:
 
 ```bash
 az group exists --name <myUniqueRGname>
@@ -167,6 +167,8 @@ az storage account create --name %storageAccount% ^
 ```
 
 Te pongo otro ejemplo, por cierto, lo hago con cmd porque primero, quería probar las distintas sintaxis entre las distintas shells y segundo utilizar bash es más sencillo en general, así sería en bash.
+
+Otro apunte, la línea let """ la utilizamos para randomizar el nombre o identificador en este caso para evitar duplicados.
 
 ```cmd
 let "randomIdentifier=$RANDOM*$RANDOM"
