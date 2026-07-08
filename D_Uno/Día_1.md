@@ -134,3 +134,52 @@ set location="spaincentral"
 set resourceGroup="msdocs-tutorial-rg-%RANDOM%"
 az group create --name %resourceGroup% --location %location% --output json
 ```
+### Vamos a crear un storage!
+
+Recordando los pasos anteriores, ya tenemos una variable que guarda nuestra zona de despliegue, en este caso spaincentral, y ahora vamos a guardar en variable nuestro grupo de recursos y lo confirmaremos con el comando echo y la variable para ver si se ha guardado.
+
+```cmd
+set  Rg_p1="leoGroup"
+echo %Rg_p1%
+"leoGroup"
+```
+
+### Paso 2 de crear el storage
+
+Vamos a crear una varible para nuestro storage para almacenar el nombre dentro, y tras ello vamos a crear el storage.
+
+```cmd
+set storagenameP1="leorage"
+echo %storagenameP1%
+>"leorage"
+set location="eastus"
+set resourceGroup="<msdocs-tutorial-rg-00000000>"
+set storageAccount="msdocssa%randomIdentifier%"
+
+:: Create a storage account.
+echo "Creating storage account %storageAccount% in resource group %resourceGroup%"
+az storage account create --name %storageAccount% ^
+                          --resource-group %resourceGroup% ^
+                          --location %location% ^
+                          --sku Standard_RAGRS ^
+                          --kind StorageV2 ^
+                          --output json
+```
+
+Te pongo otro ejemplo, por cierto, lo hago con cmd porque primero, soy bobo y segundo utiliza el bash es más sencillo en general, así sería en bash.
+
+```cmd
+let "randomIdentifier=$RANDOM*$RANDOM"
+location="eastus"
+resourceGroup="<msdocs-tutorial-rg-00000000>"
+storageAccount="msdocssa$randomIdentifier"
+
+# Create a storage account.
+echo "Creating storage account $storageAccount in resource group $resourceGroup"
+az storage account create --name $storageAccount \
+                          --resource-group $resourceGroup \
+                          --location $location \
+                          --sku Standard_RAGRS \
+                          --kind StorageV2 \
+                          --output json
+```
