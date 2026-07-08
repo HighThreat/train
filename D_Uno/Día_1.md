@@ -17,7 +17,7 @@ Tras instalar el az CLI en tu equipo, debes cerrar tu terminal y volver a abrir 
 az
 ```
 
-Tras ello deberías ver la consola de Azure.
+Tras ello deberías ver la interfaz de la CLI de azure.
 
 Lo primero que vamos a mirar es:
 
@@ -71,7 +71,7 @@ A continuación nos vamos a pegar los comandos necesarios para dejar seleccionad
 
 ### Verificar disponibilidad del nombre
 
-Vamos a mirar si el nombre que queremos asignar a nuestro recurso ya está siendo usado, para evitar repetirlo:
+Vamos a consultar si un grupo existe dentro de una suscripción concreta, la nuestra, para poder utilizar el nombre:
 
 ```bash
 az group exists --name <myUniqueRGname>
@@ -166,7 +166,7 @@ az storage account create --name %storageAccount% ^
                           --output json
 ```
 
-Te pongo otro ejemplo, por cierto, lo hago con cmd porque primero, soy bobo y segundo utiliza el bash es más sencillo en general, así sería en bash.
+Te pongo otro ejemplo, por cierto, lo hago con cmd porque primero, quería probar las distintas sintaxis entre las distintas shells y segundo utilizar bash es más sencillo en general, así sería en bash.
 
 ```cmd
 let "randomIdentifier=$RANDOM*$RANDOM"
