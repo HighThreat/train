@@ -77,7 +77,7 @@ El siguiente comando comprueba existencia dentro de la suscripción actual, del 
 az group exists --name <myUniqueRGname>
 ```
 
-Si dice false es que nadie lo está usando y por lo tanto lo podemos utilizar nosotros.
+Si dice false es que ese nombre no está asignado a ningún resource group en nuestra suscripción y por lo tanto lo podemos utilizar.
 
 **Ejemplo:**
 ```bash
