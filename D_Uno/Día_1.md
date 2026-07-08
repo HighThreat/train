@@ -123,7 +123,7 @@ Ahora bien, probablemente si usas el cmd, tendrás que realizar:
 
 ```cmd
 set location="eastus"
-set resourceGroup="msdocs-tutorial-rg-%RANDOM%"
+set resourceGroup="msdocs-tutorial-rg-1"
 az group create --name %resourceGroup% --location %location% --output json
 ```
 
@@ -131,7 +131,7 @@ Y después llamar a la variable con %location%, ejemplo:
 
 ```cmd
 set location="spaincentral"
-set resourceGroup="msdocs-tutorial-rg-%RANDOM%"
+set resourceGroup="msdocs-tutorial-rg-11111"
 az group create --name %resourceGroup% --location %location% --output json
 ```
 ### Vamos a crear un storage!
