@@ -185,3 +185,155 @@ az storage account create --name $storageAccount \
                           --kind StorageV2 \
                           --output json
 ```
+
+El resultado que nos tiene que mostrar el cli si lo hemos realizado correctamente debería ser el siguiente:
+
+```cmd
+  "accessTier": "Hot",
+  "accountMigrationInProgress": null,
+  "allowBlobPublicAccess": false,
+  "allowCrossTenantReplication": false,
+  "allowSharedKeyAccess": null,
+  "allowSharedKeyAccessForServices": null,
+  "allowedCopyScope": null,
+  "azureFilesIdentityBasedAuthentication": null,
+  "blobRestoreStatus": null,
+  "creationTime": "2026-07-09T15:31:21.986827+00:00",
+  "customDomain": null,
+  "dataCollaborationPolicyProperties": null,
+  "defaultToOAuthAuthentication": null,
+  "dnsEndpointType": null,
+  "dualStackEndpointPreference": null,
+  "enableExtendedGroups": null,
+  "enableHttpsTrafficOnly": true,
+  "enableNfsV3": null,
+  "encryption": {
+    "encryptionIdentity": null,
+    "keySource": "Microsoft.Storage",
+    "keyVaultProperties": null,
+    "requireInfrastructureEncryption": null,
+    "services": {
+      "blob": {
+        "enabled": true,
+        "keyType": "Account",
+        "lastEnabledTime": "2026-07-09T15:31:22.094333+00:00"
+      },
+      "file": {
+        "enabled": true,
+        "keyType": "Account",
+        "lastEnabledTime": "2026-07-09T15:31:22.094333+00:00"
+      },
+      "queue": null,
+      "table": null
+    }
+  },
+  "extendedLocation": null,
+  "failoverInProgress": null,
+  "geoPriorityReplicationStatus": null,
+  "geoReplicationStats": null,
+  "id": "/subscriptions/9fa4c38e-dcb2-4ca0-b292-89006f020e7a/resourceGroups/leoGroup/providers/Microsoft.Storage/storageAccounts/leorage",
+  "identity": null,
+  "immutableStorageWithVersioning": null,
+  "isHnsEnabled": null,
+  "isLocalUserEnabled": null,
+  "isSftpEnabled": null,
+  "isSkuConversionBlocked": null,
+  "keyCreationTime": {
+    "key1": "2026-07-09T15:31:22.088205+00:00",
+    "key2": "2026-07-09T15:31:22.088205+00:00"
+  },
+  "keyPolicy": null,
+  "kind": "StorageV2",
+  "largeFileSharesState": null,
+  "lastGeoFailoverTime": null,
+  "location": "francecentral",
+  "minimumTlsVersion": "TLS1_0",
+  "name": "leorage",
+  "networkRuleSet": {
+    "bypass": "None",
+    "defaultAction": "Allow",
+    "ipRules": [],
+    "ipv6Rules": [],
+    "resourceAccessRules": null,
+    "virtualNetworkRules": []
+  },
+  "placement": null,
+  "primaryEndpoints": {
+    "blob": "https://leorage.blob.core.windows.net/",
+    "dfs": "https://leorage.dfs.core.windows.net/",
+    "file": "https://leorage.file.core.windows.net/",
+    "internetEndpoints": null,
+    "ipv6Endpoints": null,
+    "microsoftEndpoints": null,
+    "queue": "https://leorage.queue.core.windows.net/",
+    "table": "https://leorage.table.core.windows.net/",
+    "web": "https://leorage.z28.web.core.windows.net/"
+  },
+  "primaryLocation": "francecentral",
+  "privateEndpointConnections": [],
+  "provisioningState": "Succeeded",
+  "publicNetworkAccess": null,
+  "resourceGroup": "leoGroup",
+  "routingPreference": null,
+  "sasPolicy": null,
+  "secondaryEndpoints": {
+    "blob": "https://leorage-secondary.blob.core.windows.net/",
+    "dfs": "https://leorage-secondary.dfs.core.windows.net/",
+    "file": null,
+    "internetEndpoints": null,
+    "ipv6Endpoints": null,
+    "microsoftEndpoints": null,
+    "queue": "https://leorage-secondary.queue.core.windows.net/",
+    "table": "https://leorage-secondary.table.core.windows.net/",
+    "web": "https://leorage-secondary.z28.web.core.windows.net/"
+  },
+  "secondaryLocation": "francesouth",
+  "sku": {
+    "name": "Standard_RAGRS",
+    "tier": "Standard"
+  },
+  "statusOfPrimary": "available",
+  "statusOfSecondary": "available",
+  "storageAccountSkuConversionStatus": null,
+  "systemData": null,
+  "tags": {},
+  "type": "Microsoft.Storage/storageAccounts",
+  "zones": null
+}
+```
+### Paso 3, etiquetar los recursos.
+
+Etiquetamos los recursos para poder facilitar las gestiones de cara al futuro, por ejemplo a la hora de crear un budge, poder agruparlo bajo 
+
+```cmd
+az storage account update --name $storageAccount \
+                          --resource-group $resourceGroup \
+                          --tags Team=t1 Environment=e1
+
+```
+
+Salida esperada:
+
+```cmd
+ },
+  "statusOfPrimary": "available",
+  "statusOfSecondary": "available",
+  "storageAccountSkuConversionStatus": null,
+  "systemData": null,
+  "tags": {
+    "Environment": "e1",
+    "Team": "t1"
+  },
+  "type": "Microsoft.Storage/storageAccounts",
+  "zones": null
+}
+```
+
+Si no desea sobrescribir etiquetas anteriores mientras trabaja en este paso del tutorial, use el comando az tag update y establezca el parámetro --operation en merge.
+
+Con el siguiente comando podemos ver los storage accounts creados en un determinado resource group:
+
+
+```cmd
+az storage account list --resource-group $resourceGroup
+```
