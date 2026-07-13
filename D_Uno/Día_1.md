@@ -337,3 +337,48 @@ Con el siguiente comando podemos ver los storage accounts creados en un determin
 ```cmd
 az storage account list --resource-group $resourceGroup
 ```
+
+### Key vault
+
+¿Qué es un key vault? Es un servicio de azure que protege las claves criptográficas y otros secretos usados por las aplicaciones y los servicios en la nube, en el siguiente ejemplo simplemente vamos a realizar un crear uno y tras ello un secreto, con los siguientes comandos:
+
+
+```cmd
+[ ~ ]$ kvname="leokv"
+[ ~ ]$ location="francecentral"
+[ ~ ]$ echo "$kvname y $location"
+leokv y francecentral
+[ ~ ]$ myNewKeyVaultID=$(az keyvault create --name $kvname --resource-group $resourceGroup --location $location -
+-query id --output tsv)
+echo "My new Azure Key Vault ID is $myNewKeyVaultID"
+My new Azure Key Vault ID is (Censurado)
+[ ~ ]$ kvSecretName="lesecret"
+kvSecretValue="leosecret"
+myNewSecretID=$(az keyvault secret set --vault-name $kvname --name $kvSecretName --value $kvSecretValue --query id --out
+put tsv)
+echo "My new secret ID is $myNewSecretID"
+```
+
+El comando az config set core.output=none sirve para configurar Azure CLI de forma que, por defecto, no muestre salida en pantalla cuando un comando termina bien; normalmente solo verás errores o advertencias. Es útil en scripts o pipelines cuando solo te interesa el código de salida y no el resultado por consola.
+
+Con los comandos anteriores damos por cerrado el primer día.
+
+### Borrar recursos.
+
+Dejo aquí la lista para borrar recursos y evitar gastos fantasmas.
+
+
+```cmd
+[ ~ ]$ az group list --output table
+Name      Location      Status
+--------  ------------  ---------
+leoGroup  spaincentral  Succeeded
+[ ~ ]$ az group delete --name $resourceGroup --no-wait
+Are you sure you want to perform this operation? (y/n): y
+[ ~ ]$ az group list --output table
+Name      Location      Status
+--------  ------------  --------
+leoGroup  spaincentral  Deleting
+[ ~ ]$
+```
+
